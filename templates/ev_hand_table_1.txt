@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Poker Hand Trainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(13, minmax(30px, 1fr));
+            gap: 1px;
+            margin: 10px;
+            border-radius: 3px;
+        }
+        .grid div {
+            padding: 5px;
+            background-color: #ddd;
+            border: 1px solid #ccc;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: black;
+            word-wrap: break-word;
+            border-radius: 3px;
+        }
+        .grid div:hover {
+            background-color: #ccc;
+        }
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: repeat(13, minmax(20px, 1fr));
+            }
+            .grid div {
+                padding: 2px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Poker Hand Trainer</h1>
+    <h2><a href="/" class="link">Back to Home</a></h2>
+    <div class="container">
+        <form method="post" action="/ev_hand_table">
+            <p>Pot Size: <input type="text" name="pot_size" value="{{ pot_size }}"></p>
+            <p>Bet Size: <input type="text" name="bet_size" value="{{ bet_size }}"></p>
+            <input type="submit" name="update_ev" value="Update EV">
+            <input type="submit" name="reset_ev" value="Reset to Default">
+        </form>
+
+        <div class="grid" id="handGrid">
+            <!-- Grid cells will be populated by JavaScript -->
+        </div>
+
+        {% if pot_odds_percentage %}
+            <div class="result">
+                <h2>Your Equity Realization</h2>
+                <p>Pot Odds Percentage: {{ pot_odds_percentage }}%</p>
+                <p>Equity Realization: {{ equity_realization }}%</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        const handStrengths = {{ hands | tojson }};
+        
+        function getColor(ev) {
+            const colors = [
+                "#85d600", "#a3e632", "#c1f563", "#e0ff95",
+                "#ffee99", "#ffd362", "#ffa92d", "#ff7f00",
+                "#ff4c00", "#ff2600", "#ff0000"
+            ];
+
+            const thresholds = [85, 75, 65, 55, 45, 35, 25, 15, 10, 5, 0];
+            for (let i = 0; i < thresholds.length; i++) {
+                if (ev >= thresholds[i]) {
+                    return colors[i];
+                }
+            }
+            return colors[colors.length - 1];
+        }
+
+        function generateHandGrid() {
+            const grid = document.getElementById('handGrid');
+            const orderedHands = [
+                ['AA', 'AKs', 'AQs', 'AJs', 'ATs', 'A9s', 'A8s', 'A7s', 'A6s', 'A5s', 'A4s', 'A3s', 'A2s'],
+                ['AKo', 'KK', 'KQs', 'KJs', 'KTs', 'K9s', 'K8s', 'K7s', 'K6s', 'K5s', 'K4s', 'K3s', 'K2s'],
+                ['AQo', 'KQo', 'QQ', 'QJs', 'QTs', 'Q9s', 'Q8s', 'Q7s', 'Q6s', 'Q5s', 'Q4s', 'Q3s', 'Q2s'],
+                ['AJo', 'KJo', 'QJo', 'JJ', 'JTs', 'J9s', 'J8s', 'J7s', 'J6s', 'J5s', 'J4s', 'J3s', 'J2s'],
+                ['ATo', 'KTo', 'QTo', 'JTo', 'TT', 'T9s', 'T8s', 'T7s', 'T6s', 'T5s', 'T4s', 'T3s', 'T2s'],
+                ['A9o', 'K9o', 'Q9o', 'J9o', 'T9o', '99', '98s', '97s', '96s', '95s', '94s', '93s', '92s'],
+                ['A8o', 'K8o', 'Q8o', 'J8o', 'T8o', '98o', '88', '87s', '86s', '85s', '84s', '83s', '82s'],
+                ['A7o', 'K7o', 'Q7o', 'J7o', 'T7o', '97o', '87o', '77', '76s', '75s', '74s', '73s', '72s'],
+                ['A6o', 'K6o', 'Q6o', 'J6o', 'T6o', '96o', '86o', '76o', '66', '65s', '64s', '63s', '62s'],
+                ['A5o', 'K5o', 'Q5o', 'J5o', 'T5o', '95o', '85o', '75o', '65o', '55', '54s', '53s', '52s'],
+                ['A4o', 'K4o', 'Q4o', 'J4o', 'T4o', '94o', '84o', '74o', '64o', '54o', '44', '43s', '42s'],
+                ['A3o', 'K3o', 'Q3o', 'J3o', 'T3o', '93o', '83o', '73o', '63o', '53o', '43o', '33', '32s'],
+                ['A2o', 'K2o', 'Q2o', 'J2o', 'T2o', '92o', '82o', '72o', '62o', '52o', '42o', '32o', '22']
+            ];
+            
+            orderedHands.forEach(row => {
+                row.forEach(hand => {
+                    const cell = document.createElement('div');
+                    cell.innerText = hand;
+                    const handData = handStrengths.find(h => h.hand === hand);
+                    const ev = handData ? handData.ev : 0;
+                    cell.style.backgroundColor = getColor(ev);
+                    cell.onclick = () => {
+                        window.location.href = `/ev_hand/${hand}`;
+                    };
+                    grid.appendChild(cell);
+                });
+            });
+        }
+
+        generateHandGrid();
+    </script>
+</body>
+</html>

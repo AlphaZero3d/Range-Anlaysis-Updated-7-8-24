@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>{{ hand.hand }} Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ hand.hand }} Details</h1>
+        <table>
+            <tr>
+                <th>EV</th>
+                <td>{{ original_ev | round(3)}}</td>
+            </tr>
+            <tr>
+                <th>Equity</th>
+                <td>{{ hand.equity }}%</td>
+            </tr>
+            <tr>
+                <th>Fold Equity</th>
+                <td>{{ (100 -hand.equity) | round(2) }}%</td>
+            </tr>
+            <tr>
+                <th>Total Equity = (Fold Equity  * Hand Equity) + Hand Equity
+                </th>
+                <td>{{ (((100 -hand.equity/100) *(hand.equity/100))+(hand.equity/100)) | round(2) }}%</td>
+            </tr>
+            <tr>
+                <th>Your Pot Odds</th>
+                <td>{{ (pot_odds) | round(2) }}%</td>
+            </tr>
+
+            <tr>
+                <th>Equity - Your Pot Odds</th>
+                <td>{{ (hand.equity - pot_odds) | round(2) }}%</td>
+            </tr>
+
+            <tr>
+                <th>Your Equity Realization = EV / (Equity * Pot)</th>
+                <td>{{ your_equity_realization | round(2) }}%</td>
+            </tr>
+        </table>
+        <a href="{{ url_for('ev_hand_table') }}">Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,202 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    font-size: 20px;
+    max-width: 1010px;
+    max-height: 1280px;
+    margin: auto;
+}
+
+h1 {
+    color: #333;
+    font-size: 35px;
+}
+
+h2 {
+    color: #333;
+    font-size: 30px;
+}
+
+h3 {
+    color: #333;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+table {
+    width: 45%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+th, td {
+    padding: 5px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #ddd;
+    font-size: 15px;
+}
+
+td {
+    font-size: 15px;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header a {
+    font-size: 18px;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.header a:hover {
+    text-decoration: underline;
+}
+
+.result-table {
+    margin-top: 20px;
+}
+
+.result-table th, .result-table td {
+    padding: 8px 12px;
+}
+
+input[type="submit"], button, .button-link {
+    font-size: 20px;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: center;
+    text-decoration: none;  /* Remove underline from links */
+    display: inline-block;  /* Ensure it behaves like a button */
+    width: 100%;  /* Full width */
+}
+
+
+/* Specific button styles */
+button[name="action"][value="fold"] {
+    background-color: #f46936; /* Red for fold */
+    border-color: #f46936;
+}
+
+button[name="action"][value="fold"]:hover {
+    background-color: #f46936;
+}
+
+button[name="action"][value="call"] {
+    background-color: #2196F3; /* Blue for call */
+    border-color: #2196F3;
+}
+
+button[name="action"][value="call"]:hover {
+    background-color: #1e88e5;
+}
+
+button[name="action"][value="raise_50"] {
+    background-color: #4CAF50; /* Green for raise 50% */
+    border-color: #4CAF50;
+}
+
+button[name="action"][value="raise_50"]:hover {
+    background-color: #43a047;
+}
+
+button[name="action"][value="raise_75"] {
+    background-color: #388E3C; /* Darker green for raise 75% */
+    border-color: #388E3C;
+}
+
+button[name="action"][value="raise_75"]:hover {
+    background-color: #2e7d32;
+}
+
+/* Style for .button-link */
+.button-link {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.button-link:hover {
+    background-color: #45a049;
+}
+
+input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+input[type="radio"] + label {
+    position: relative;
+    padding-left: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+input[type="radio"] + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    background-color: white;
+}
+
+input[type="radio"]:checked + label:before {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+input[type="radio"]:checked + label:after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+}
+.charts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.chart-container {
+    width: 80%;
+    margin: 10px 0;
+}

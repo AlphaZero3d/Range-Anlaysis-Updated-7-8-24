@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            font-size: 20px;
+            max-width: 1010px;
+            margin: auto;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #5DADEC, #85C1E9);
+            background-color: #f4f4f9;
+        }
+
+
+        h1 {
+            color: #333;
+            font-size: 30px;
+            margin-top: 50px;
+            animation: fadeIn 1s ease-in-out;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            align-items: center;
+            justify-items: center;
+            word-wrap: break-word;
+        }
+        
+        h2 {
+            color: #333;
+            font-size: 30px;
+            margin-top: 50px;
+            animation: fadeIn 1s ease-in-out;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            align-items: center;
+            justify-items: center;
+            word-wrap: break-word;
+        }
+        h3 {
+            color: #333;
+            font-size: 30px;
+            margin-top: 50px;
+            animation: fadeIn 1s ease-in-out;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            align-items: center;
+            justify-items: center;
+            word-wrap: break-word;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* Add space between buttons */
+        }
+
+        li {
+            margin: 20px 0;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            word-wrap: break-word;
+        }
+
+        a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Outlytic Poker</h1>
+    <ul>
+        
+        
+        
+        <h2> Pot Odds EV Chart </h2>
+        <li><a href="{{ url_for('ev_hand_table') }}" class="link">Dynamic EV Hand Table Trainer</a></li>
+        
+    </ul>
+
+    <footer>
+        &copy; 2024 Outlytic LLC All rights reserved.
+    </footer>
+</body>
+</html>

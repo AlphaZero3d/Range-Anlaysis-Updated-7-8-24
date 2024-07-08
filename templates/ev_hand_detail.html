@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>{{ hand.hand }} Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .tables {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .table-container {
+            width: 48%;
+        }
+        h2 {
+            color: #555;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+            text-align: center;
+        }
+        td {
+            background-color: #fff;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ hand.hand }} Details</h1>
+        <div class="tables">
+            <div class="table-container">
+                <h2>Hand Values</h2>
+                <table>
+                    <tr>
+                        <th>OG EV</th>
+                        <td>${{ original_ev | round(3)}}</td>
+                    </tr>
+                    <tr>
+                        <th>EV</th>
+                        <td>${{ ev_value }}</td>
+                    </tr>
+                    <tr>
+                        <!--
+                        (((100 - (hand.equity / 100)) * hand.equity) + hand.equity)
+                         (Fold Equity  * Hand Equity) + Hand 
+                         -->
+                        <th>Total Equity = (FE*HE)+HE</th>
+                        <td>{{ total_equity }}%</td>
+                    </tr>
+                    <tr>
+                        <th>Equity</th>
+                        <td>{{ hand.equity }}%</td>
+                    </tr>
+                    <tr>
+                        <th>Fold Equity</th>
+                        <td>{{ (100 - hand.equity) | round(2) }}%</td>
+                    </tr>
+
+                    <tr>
+                        <th>Diff Realization Yours vs Opponent</th>
+                        <td>{{ diff_yours_vs_opponent | round(5) }}%</td>
+                    </tr>                 
+                </table>
+            </div>        
+            <div class="table-container">        
+                <h2>Your Values</h2>
+                <table>
+
+                    <tr>
+                        <th>Your Pot Odds</th>
+                        <td>{{ pot_odds | round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <th>Equity - Your Pot Odds</th>
+                        <td>{{ (hand.equity - pot_odds) | round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <!-- <th>Your Equity Realization = EV / (Equity * Pot)</th>-->
+                        <th>Your Equity Realization</th>
+                        <td>{{ your_equity_realization | round(5) }}%</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table-container">
+                <h2>Opponent's Values</h2>
+                <table>
+                    <tr>
+                        <th>Opp Advertised Pot Odds</th>
+                        <td>{{ opponent_pot_odds | round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <th>Equity - Opp Pot Odds</th>
+                        <td>{{ (hand.equity - opponent_pot_odds) | round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <!-- <th>Opp Equity Realization = EV / (Equity * Pot)</th> -->
+                        <th>Opp Equity Realization </th>
+                        <td>{{ opponent_equity_realization | round(5) }}%</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <a href="{{ url_for('ev_hand_table') }}">Back</a>
+    </div>
+</body>
+</html>
